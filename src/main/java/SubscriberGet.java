@@ -16,7 +16,7 @@ public class SubscriberGet extends Thread{
 
     @Override
     public void run() {
-
+//        System.out.println("start to run SubscriberGet " + this._subName);    // test only
         try {
             ServerSocket serverSocket = new ServerSocket(this._port);
             while (true) {

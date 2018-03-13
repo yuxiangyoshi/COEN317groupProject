@@ -17,17 +17,17 @@ public class SubscriberPost extends Thread{
 
     @Override
     public void run() {
-
+//        System.out.println("start to run SubscriberPost " + this._subName);    // test only
         // get the accessible server
         while (true) {
-            System.out.print("subscriber " + _subName + ">");
+//            System.out.print("subscriber " + _subName + ">");
             Scanner scan = new Scanner(System.in);
             String command = scan.nextLine();
             if ("exit".equals(command)) {
                 // stop the thread
                 this._subscriberGet.interrupt();
                 scan.close();
-                return;
+                break;
             }
             try {
                 Socket socket = null;
@@ -42,16 +42,19 @@ public class SubscriberPost extends Thread{
                     try {
                         socket = new Socket(serverIP, serverPort);
                     } catch (Exception e) {
-                        System.err.println("Cannot connect to server: IP: " + serverIP + " Port: " + serverPort);    // test only
+//                        System.err.println("Cannot connect to server: IP: " + serverIP + " Port: " + serverPort);    // test only
                         continue;
                     }
+
+//                    System.out.println("Now post a request to server...");    // test only
 
                     PrintStream ps = new PrintStream(socket.getOutputStream());
                     ps.println("subscriber " + _subName + " " + command);
 
-                    ps.flush();
+//                    ps.flush();
                     ps.close();
                     socket.close();
+                    break;
                 }
 
 
@@ -61,8 +64,7 @@ public class SubscriberPost extends Thread{
                 ex.printStackTrace();
             }
         }
-
-
+        System.out.println("Exit Subscriber");    // test only
     }
 
 

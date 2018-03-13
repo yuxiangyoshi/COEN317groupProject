@@ -24,12 +24,13 @@ public class PublisherHandler {
         this._pubName =pubName;
         this._ip = InetAddress.getLocalHost().getHostAddress();
         this._port = ToolKit.findAvailablePort();
-        System.out.println("publisher " + _pubName + " use " + this._ip + ":" + this._port);
+//        System.out.println("publisher " + _pubName + " use " + this._ip + ":" + this._port);    // test only
     }
 
     public void start() {
 
         while (true) {    // read the publishing messages
+            System.out.print(this._pubName + ">");
             Scanner scanner = new Scanner(System.in);
             String message = scanner.nextLine();
 //            ServerInfo actServer = getActiveServer();
@@ -58,8 +59,8 @@ public class PublisherHandler {
                 }
 
                 PrintStream printStream = new PrintStream(socket.getOutputStream());
-
-                printStream.println(_pubName + " " + _ip + " " + _port + " " + message);
+                String timeStampString = ToolKit.retrieveCurrentTime();
+                printStream.println("publisher " + this._pubName + " (from " + this._pubName + " at " + timeStampString + "): " + message);
 
                 printStream.flush();
                 printStream.close();

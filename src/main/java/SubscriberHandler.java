@@ -21,6 +21,7 @@ public class SubscriberHandler {
         this._subName = name;
         String ip = InetAddress.getLocalHost().getHostAddress();
         this._port = ToolKit.findAvailablePort();
+//        System.out.println(this._subName + " IP: " + InetAddress.getLocalHost().getHostAddress() + " port: " + this._port);    // test only
 
         // access to serverinfo.txt to the server information.
         Socket socket = null;
@@ -36,7 +37,7 @@ public class SubscriberHandler {
             try {
                 socket = new Socket(serverIP, serverPort);
             } catch (Exception ex) {
-                System.err.println("Fail to connect server: " + serverIP + " port: " + serverPort);    // test only
+//                System.err.println("Fail to connect server: " + serverIP + " port: " + serverPort);    // test only
                 continue;
             }
             isconnected = true;
@@ -51,14 +52,19 @@ public class SubscriberHandler {
         Scanner scanner = new Scanner(socket.getInputStream());
         ps.println("subscriber " + _subName + " online " + ip + " " + this._port);
 
+//        System.out.println("start to load unread message...");    // test only
+
         // read the unread messages
         String message = null;
         while (scanner.hasNextLine()) {
             message = scanner.nextLine();
-            System.out.println(message);
+            System.out.println("unread message:" + message);
         }
 
+        System.out.println("finish loading unread message...");    // test only
+
         // start Subscribe Post (Write to Server) and Get (Read from Server)
+//        System.out.println("start GET and POST for subscriber " + this._subName);
         SubscriberGet subscriberGet = new SubscriberGet(this._subName, this._port);
         subscriberGet.start();
 
